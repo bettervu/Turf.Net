@@ -1,19 +1,17 @@
-﻿namespace Turf.Net
+﻿namespace Turf.Net;
+public enum Units
 {
-    public enum Units
-    {
-        Meters,
-        Millimeters,
-        Centimeters,
-        Kilometers,
-        Acres,
-        Miles,
-        Nauticalmiles,
-        Inches,
-        Yards,
-        Feet,
-        Radians,
-        Degrees,
-        Hectares,
-    }
+    Meters,
+    Millimeters,
+    Centimeters,
+    Kilometers,
+    Acres,
+    Miles,
+    Nauticalmiles,
+    Inches,
+    Yards,
+    Feet,
+    Radians,
+    Degrees,
+    Hectares,
 }

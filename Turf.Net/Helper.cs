@@ -2,14 +2,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace Turf.Net
+namespace Turf.Net;
+public static partial class Turf
 {
-    public static partial class Turf
-    {
 
-        public static double EarthRadius = 6371008.8;
+    public static double EarthRadius = 6371008.8;
 
-        public static Dictionary<Units, double> Factors = new Dictionary<Units, double>()
+    public static Dictionary<Units, double> Factors = new Dictionary<Units, double>()
         {
             { Units.Centimeters, EarthRadius * 100},
             { Units.Degrees, EarthRadius / 111325},
@@ -25,7 +24,7 @@ namespace Turf.Net
         };
 
 
-        public static Dictionary<Units, double> UnitsFactors = new Dictionary<Units, double>()
+    public static Dictionary<Units, double> UnitsFactors = new Dictionary<Units, double>()
         {
             { Units.Centimeters, 100},
             { Units.Degrees, 1 / 111325},
@@ -42,7 +41,7 @@ namespace Turf.Net
         };
 
 
-        public static Dictionary<Units, double> AreaFactors = new Dictionary<Units, double>()
+    public static Dictionary<Units, double> AreaFactors = new Dictionary<Units, double>()
         {
              {Units.Acres, 0.000247105},
              {Units.Centimeters, 10000},
@@ -56,59 +55,57 @@ namespace Turf.Net
              {Units.Yards, 1.195990046},
 
         };
-        public static double Round(double number, int precision = 0)
-        {
-            return Math.Round(number, precision);
-        }
+    public static double Round(double number, int precision = 0)
+    {
+        return Math.Round(number, precision);
+    }
 
-        public static double RadiansToLength(double radians, Units units = Units.Kilometers)
-        {
-            return radians * Factors[units];
-        }
+    public static double RadiansToLength(double radians, Units units = Units.Kilometers)
+    {
+        return radians * Factors[units];
+    }
 
-        public static double LengthToRadians(double length, Units units = Units.Kilometers)
-        {
-            return length / Factors[units];
-        }
+    public static double LengthToRadians(double length, Units units = Units.Kilometers)
+    {
+        return length / Factors[units];
+    }
 
-        public static double LengthToDegrees(double length, Units units = Units.Kilometers)
+    public static double LengthToDegrees(double length, Units units = Units.Kilometers)
+    {
+        return RadiansToDegrees(LengthToRadians(length, units));
+    }
+    public static double BearingToAzimuth(double bearing)
+    {
+        var angle = bearing % 360;
+        if (angle < 0)
         {
-            return RadiansToDegrees(LengthToRadians(length, units));
+            angle += 360;
         }
-        public static double BearingToAzimuth(double bearing)
-        {
-            var angle = bearing % 360;
-            if (angle < 0)
-            {
-                angle += 360;
-            }
-            return angle;
-        }
+        return angle;
+    }
 
-        public static double RadiansToDegrees(double radians)
-        {
-            return Radians.ToDegrees(radians);
-
-        }
-
-        public static double DegreesToRadians(double degrees)
-        {
-            return Degrees.ToRadians(degrees);
-        }
-
-        public static double ConvertLength(double length, Units originalUnits, Units finalUnits)
-        {
-            return RadiansToLength(LengthToRadians(length, originalUnits), finalUnits);
-        }
-
-        public static double ConvertArea(double area, Units originalUnits, Units finalUnits)
-        {
-            var startFactor = AreaFactors[originalUnits];
-            var finalFactor = AreaFactors[finalUnits];
-            return (area / startFactor) * finalFactor;
-        }
-
+    public static double RadiansToDegrees(double radians)
+    {
+        return Radians.ToDegrees(radians);
 
     }
+
+    public static double DegreesToRadians(double degrees)
+    {
+        return Degrees.ToRadians(degrees);
+    }
+
+    public static double ConvertLength(double length, Units originalUnits, Units finalUnits)
+    {
+        return RadiansToLength(LengthToRadians(length, originalUnits), finalUnits);
+    }
+
+    public static double ConvertArea(double area, Units originalUnits, Units finalUnits)
+    {
+        var startFactor = AreaFactors[originalUnits];
+        var finalFactor = AreaFactors[finalUnits];
+        return (area / startFactor) * finalFactor;
+    }
+
 
 }
